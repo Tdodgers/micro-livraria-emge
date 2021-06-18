@@ -1,0 +1,9 @@
+Para adicionar ou remover itens do estoque pela porta 3000:
+
+Usar o seguinte comando para remover: localhost:3000/books/1/0
+
+onde o 1 seria o id do livro e 0 seria o "comando" de remover o item do estoque.
+
+Usar o seguinte comando para adicionar: localhost:3000/books/1/1
+
+onde o 1 seria o id do livro e 1 seria o "comando" de adicionar o item do estoque.

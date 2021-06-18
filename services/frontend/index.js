@@ -72,11 +72,11 @@ function RemoveQuantity(id, estoque) {
                     $(".button-buy")[id-1].setAttribute("disabled", "");
                 }
             }else{
-                swal('Erro', 'Não há inventário restante!', 'error');
+                swal('Erro', 'Sem estoque!', 'error');
             }
         })
         .catch((err) => {
-            swal('Erro', 'Erro ao atualizar o inventário', 'error');
+            swal('Erro', 'Erro ao atualizar estoque', 'error');
             console.error(err);
         });
 }
@@ -96,11 +96,11 @@ function AddQuantity(id, estoque) {
                 dados.replaceChild(textNode, dados.childNodes[0]);
                 
             }else{
-                swal('Erro', 'Não há inventário restante!', 'error');
+                swal('Erro', 'Estoque cheio!', 'error');
             }
         })
         .catch((err) => {
-            swal('Erro', 'Erro ao atualizar o inventário', 'error');
+            swal('Erro', 'Erro ao atualizar o estoque', 'error');
             console.error(err);
         });
 }
