@@ -20,13 +20,35 @@ server.addService(inventoryProto.InventoryService.service, {
             products: products,
         });
     },
-
     SearchProductByID: (payload, callback) => {
         callback(
             null,
             products.find((product) => product.id == payload.request.id)
         );
     },
+    RemoveProduct: (payload, callback) => {
+        let product = products.find((product) => product.id == payload.request.id)
+        if(product.quantity > 0){
+            product.quantity--;
+        }
+        callback(
+            null,
+            product
+            
+        );
+    },
+    AddProduct: (payload, callback) => {
+        let product = products.find((product) => product.id == payload.request.id)
+        if(product.quantity < 15){
+            product.quantity++;
+        }
+        callback(
+            null,
+            product
+            
+        );
+    },
+    
 });
 
 server.bindAsync('127.0.0.1:3002', grpc.ServerCredentials.createInsecure(), () => {

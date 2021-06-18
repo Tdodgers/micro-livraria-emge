@@ -10,6 +10,7 @@ app.use(cors());
  * Retorna a lista de produtos da loja via InventoryService
  */
 app.get('/products', (req, res, next) => {
+
     inventory.SearchAllProducts(null, (err, data) => {
         if (err) {
             console.error(err);
@@ -19,6 +20,37 @@ app.get('/products', (req, res, next) => {
         }
     });
 });
+
+app.get('/books/:id/:estoque', (req, res, next) => {
+    if(req.params.estoque == 0){
+        inventory.RemoveProduct({id: req.params.id}, (err, product) => {
+       
+            if (err){
+                console.error(err);
+                res.status(500).send({ error: 'something failed :('});
+            }else{
+                res.json(product);
+            }
+        });
+    }else{
+
+        inventory.AddProduct({id: req.params.id}, (err, product) => {
+       
+            if (err){
+                console.error(err);
+                res.status(500).send({ error: 'something failed :('});
+            }else{
+                res.json(product);
+            }
+        });
+    }
+    
+   
+});
+
+
+
+
 
 /**
  * Consulta o frete de envio no ShippingService
@@ -42,15 +74,14 @@ app.get('/shipping/:cep', (req, res, next) => {
     );
 });
 
-app.get('/product/:id', (req, res, next) => {
-    // Chama método do microsserviço.
-    inventory.SearchProductByID({ id: req.params.id }, (err, product) => {
-        // Se ocorrer algum erro de comunicação
+app.get('/product/:id', (req, res, next)=> {
+    inventory.SearchProductByID({id: req.params.id}, (err, product) => {
+         // Se ocorrer algum erro de comunicação
         // com o microsserviço, retorna para o navegador.
-        if (err) {
+        if (err){
             console.error(err);
-            res.status(500).send({ error: 'something failed :(' });
-        } else {
+            res.status(500).send({ error: 'Houve algum erro'});
+        }else{
             // Caso contrário, retorna resultado do
             // microsserviço (um arquivo JSON) com os dados
             // do produto pesquisado
@@ -59,16 +90,6 @@ app.get('/product/:id', (req, res, next) => {
     });
 });
 
-app.get('/product/:id', (req, res, next) => {
-    inventory.SearchProductByID({ id: req.params.id }, (err, product) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send({ error: 'something failed :(' });
-        } else {
-            res.json(product);
-        }
-    });
-});
 
 /**
  * Inicia o router
